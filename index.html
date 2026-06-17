@@ -53,6 +53,10 @@ input:focus,textarea:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3
 .note{display:flex;gap:10px;background:var(--pl);border:1px solid var(--p);border-radius:8px;padding:12px;margin:12px 0 0;font-size:13px;color:var(--ts);}
 .screennav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;}
 .screennav .btn{padding:6px 14px;}
+.colsel{display:flex;gap:8px;}
+.colsel button{flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--bm);background:#fff;color:var(--ts);font-weight:600;font-size:14px;cursor:pointer;}
+.colsel button.on{border:2px solid var(--p);background:var(--pl);color:var(--pd);}
+.upload{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;}
 .preview{position:sticky;top:24px;}
 .canvasWrap{width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--bd);background:#000;}
 .canvasWrap canvas{width:100%;height:100%;display:block;}
@@ -78,10 +82,15 @@ input:focus,textarea:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3
         <label class="chk"><input type="checkbox" id="showDay"/> Show day</label>
         <label class="chk"><input type="checkbox" id="showDate"/> Show date</label>
       </div>
-      <label>Background template</label>
+      <label id="bgLabel">Background template</label>
       <div id="thumbs" class="thumbs"></div>
+      <label class="btn ghost upload" style="color:var(--pd);border-color:var(--p)">Upload background image<input type="file" id="bgfile" accept="image/*" hidden></label>
+      <label>Columns</label>
+      <div id="colsel" class="colsel"><button data-n="1">1</button><button data-n="2">2</button><button data-n="3">3</button><button data-n="4" class="on">4</button></div>
+      <label>Text color</label>
+      <div id="txtcol" class="colsel"><button data-v="auto" class="on">Auto</button><button data-v="dark">Dark</button><button data-v="light">Light</button></div>
       <label>Item font size</label>
-      <select id="font"><option value="16">16 px</option><option value="18" selected>18 px</option><option value="20">20 px</option></select>
+      <select id="font"><option value="16">16 px</option><option value="18" selected>18 px</option><option value="20">20 px</option><option value="22">22 px</option><option value="24">24 px</option><option value="26">26 px</option><option value="28">28 px</option></select>
       <label>Footer message (optional)</label>
       <textarea id="footer" placeholder="e.g. All prices inclusive of taxes. Prices subject to change." style="min-height:60px"></textarea>
       <p class="muted">Shown centered at the bottom of every screen.</p>
@@ -142,7 +151,7 @@ const C = {
 const CANVAS_W = 1920;
 const CANVAS_H = 1080;
 const MARGIN = 72;
-const FONT_OPTIONS = [16, 18, 20];
+const FONT_OPTIONS = [16, 18, 20, 22, 24, 26, 28];
 
 const BANNER_COLOR = "#8B2E13";
 const INK_DARK = "#1f1206";
@@ -391,7 +400,7 @@ function brushBanner(ctx, x, y, w, h, seed) {
 }
 
 // right-aligned veg/non-veg/egg legend (top-right, under day/date)
-function drawLegendRight(ctx, rightX, y, ms) {
+function drawLegendRight(ctx, rightX, y, ms, ink) {
   const items = [
     ["veg", "Veg"],
     ["nonveg", "Non-veg"],
@@ -409,7 +418,7 @@ function drawLegendRight(ctx, rightX, y, ms) {
   let x = rightX - total;
   items.forEach(([kind, label], i) => {
     drawMarker(ctx, x, y - ms / 2, ms, kind);
-    ctx.fillStyle = inkFor(regionLum(ctx, x + ms + 6, y - 11, lws[i] + 4, 22));
+    ctx.fillStyle = ink;
     ctx.textAlign = "left";
     ctx.fillText(label, x + ms + 8, y);
     x += ms + 8 + lws[i] + 22;
@@ -453,7 +462,7 @@ function computeMenu(ctx, opts) {
 
   const menuTop = Math.max(leftBottom, rightBottom) + 18;
 
-  const cols = 4;
+  const cols = Math.max(1, Math.min(4, opts.columns || 4));
   const colGap = 58;
   const colW = (contentW - colGap * (cols - 1)) / cols;
   const colX = (i) => contentX + i * (colW + colGap);
@@ -560,38 +569,45 @@ function renderMenu(ctx, opts) {
   const cur = Math.max(0, Math.min(page, pageCount - 1));
   const pageCols = screens[cur] || [];
 
-  drawLogo(ctx, contentX, header.logoY, header.logoH, inkFor(regionLum(ctx, contentX, header.logoY, 220, header.logoH)), logoEl);
+  // single text colour for the whole screen (no per-region flipping)
+  let ink;
+  if (opts.textColor === "dark") ink = INK_DARK;
+  else if (opts.textColor === "light") ink = INK_LIGHT;
+  else ink = inkFor(regionLum(ctx, 0, 0, CANVAS_W, CANVAS_H)); // auto: from the whole background
+  const ruleColor = ink === INK_LIGHT ? "rgba(255,255,255,0.42)" : "rgba(90,55,25,0.32)";
+
+  drawLogo(ctx, contentX, header.logoY, header.logoH, ink, logoEl);
   const titleText = (title || "MENU").toUpperCase();
   ctx.font = `800 ${header.titleFont}px Poppins, sans-serif`;
   ctx.textBaseline = "alphabetic";
   ctx.textAlign = "left";
-  ctx.fillStyle = inkFor(regionLum(ctx, contentX, header.titleY - header.titleFont, ctx.measureText(titleText).width, header.titleFont));
+  ctx.fillStyle = ink;
   ctx.fillText(titleText, contentX, header.titleY);
 
   ctx.textAlign = "right";
   if (header.dayY != null && dayLabel) {
     ctx.font = `700 ${header.dFont}px Poppins, sans-serif`;
-    ctx.fillStyle = inkFor(regionLum(ctx, rightX - 260, header.dayY - header.dFont, 260, header.dFont));
+    ctx.fillStyle = ink;
     ctx.fillText(dayLabel, rightX, header.dayY);
   }
   if (header.dateY != null && dateLabel) {
     ctx.font = `500 ${header.dFont}px Poppins, sans-serif`;
-    ctx.fillStyle = inkFor(regionLum(ctx, rightX - 340, header.dateY - header.dFont, 340, header.dFont));
+    ctx.fillStyle = ink;
     ctx.fillText(dateLabel, rightX, header.dateY);
   }
   ctx.textAlign = "left";
 
-  drawLegendRight(ctx, rightX, header.legendY, header.legendMs);
+  drawLegendRight(ctx, rightX, header.legendY, header.legendMs, ink);
 
   // centered footer message / disclaimer (reserved band at the bottom)
   if (L.footerLines && L.footerLines.length) {
     ctx.font = `500 ${L.footerFont}px Poppins, sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.fillStyle = ink;
     const startY = L.contentBottom + 20 + L.footerLineH / 2;
     L.footerLines.forEach((ln, i) => {
       const yy = startY + i * L.footerLineH;
-      ctx.fillStyle = inkFor(regionLum(ctx, CANVAS_W / 2 - 320, yy - L.footerFont / 2, 640, L.footerFont));
       ctx.fillText(ln, CANVAS_W / 2, yy);
     });
     ctx.textAlign = "left";
@@ -601,7 +617,7 @@ function renderMenu(ctx, opts) {
   if (L.valid.length === 0) {
     ctx.textAlign = "center";
     ctx.font = `600 38px Poppins, sans-serif`;
-    ctx.fillStyle = inkFor(regionLum(ctx, contentX, menuTop, contentW, 60));
+    ctx.fillStyle = ink;
     ctx.fillText("Add a category to start", CANVAS_W / 2, menuTop + 80);
     ctx.textAlign = "left";
     return 1;
@@ -619,9 +635,6 @@ function renderMenu(ctx, opts) {
   };
   const drawItem = (it, x, y, lines) => {
     const h = lines.length * m.lineH + m.vpad;
-    const lum = regionLum(ctx, x, y + 2, colW, h - 4);
-    const ink = inkFor(lum);
-    const rule = lum > 0.55 ? "rgba(90,55,25,0.30)" : "rgba(255,255,255,0.4)";
     const ms = m.itemFont * 0.85;
     const topPad = m.itemFont * 0.32;
     const firstCy = y + topPad + m.lineH * 0.5;
@@ -634,7 +647,7 @@ function renderMenu(ctx, opts) {
     ctx.textAlign = "left";
     ctx.font = `500 ${Math.round(m.itemFont)}px Poppins, sans-serif`;
     lines.forEach((ln, i) => ctx.fillText(ln, x + ms + 14, firstCy + i * m.lineH));
-    ctx.strokeStyle = rule;
+    ctx.strokeStyle = ruleColor;
     ctx.lineWidth = 1.4;
     ctx.beginPath();
     ctx.moveTo(x, y + h - 3);
@@ -662,7 +675,7 @@ function renderMenu(ctx, opts) {
     ctx.textBaseline = "alphabetic";
     ctx.textAlign = "right";
     const lw = ctx.measureText(label).width;
-    ctx.fillStyle = inkFor(regionLum(ctx, rightX - lw, CANVAS_H - MARGIN + 2, lw, 24));
+    ctx.fillStyle = ink;
     ctx.fillText(label, rightX, CANVAS_H - MARGIN + 20);
   }
 
@@ -678,19 +691,21 @@ const newCat = (name = "", items = "") => ({ id: CAT_SEQ++, name, items });
 
 
 const ICONS={up:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>',down:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>',del:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>'};
-const state={title:"Menu",date:new Date().toISOString().slice(0,10),showDay:false,showDate:false,tmplId:"t1",fontSize:18,footer:"",categories:[],page:0};
+const state={title:"Menu",date:new Date().toISOString().slice(0,10),showDay:false,showDate:false,tmplId:"t1",fontSize:18,columns:4,textColor:"auto",footer:"",categories:[],page:0,bgByScreen:{}};
 const $=id=>document.getElementById(id);
 const imgCache={};
 let logoImg=null;
+let allTemplates=TEMPLATES.slice();
+function bgIdForPage(p){return state.bgByScreen[p]||state.tmplId;}
 const mc=document.createElement('canvas');mc.width=CANVAS_W;mc.height=CANVAS_H;const measureCtx=mc.getContext('2d');
 function labels(){const d=state.date?new Date(state.date+"T00:00:00"):null;return {dayLabel:state.showDay&&d?d.toLocaleDateString(undefined,{weekday:'long'}):"",dateLabel:state.showDate&&d?d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}):""};}
-function opts(cats){const l=labels();return {title:state.title,dayLabel:l.dayLabel,dateLabel:l.dateLabel,bgEl:imgCache[state.tmplId]||null,logoEl:logoImg,baseItemFont:state.fontSize,footer:state.footer,categories:cats||state.categories,page:state.page};}
+function opts(cats){const l=labels();return {title:state.title,dayLabel:l.dayLabel,dateLabel:l.dateLabel,bgEl:imgCache[bgIdForPage(state.page)]||null,logoEl:logoImg,baseItemFont:state.fontSize,columns:state.columns,textColor:state.textColor,footer:state.footer,categories:cats||state.categories,page:state.page};}
 function itemsOf(cats){return cats.reduce((s,c)=>s+parseItems(c.items).length,0);}
 function screensOf(cats){const o=opts(cats);o.bgEl=null;return menuScreens(measureCtx,o);}
 function renderCanvas(){renderMenu($('canvas').getContext('2d'),opts());}
 function preload(){TEMPLATES.forEach(t=>{if(!t.src||imgCache[t.id])return;const im=new Image();im.onload=()=>{imgCache[t.id]=im;renderCanvas();};im.src=t.src;});}
 let toastT;function flash(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400);}
-function renderThumbs(){const w=$('thumbs');w.innerHTML='';TEMPLATES.forEach(t=>{const b=document.createElement('button');b.className='thumb'+(t.id===state.tmplId?' active':'');b.title=t.name;if(t.src)b.style.backgroundImage='url('+t.src+')';const s=document.createElement('span');s.textContent=t.name;b.appendChild(s);b.onclick=()=>{state.tmplId=t.id;renderThumbs();renderCanvas();};w.appendChild(b);});}
+function renderThumbs(){const w=$('thumbs');w.innerHTML='';const sc=screensOf(state.categories);const lab=$('bgLabel');if(lab)lab.textContent=sc>1?('Background — Screen '+(Math.min(state.page,sc-1)+1)):'Background template';allTemplates.forEach(t=>{const b=document.createElement('button');b.className='thumb'+(bgIdForPage(state.page)===t.id?' active':'');b.title=t.name;if(t.src)b.style.backgroundImage='url('+t.src+')';const s=document.createElement('span');s.textContent=t.name;b.appendChild(s);b.onclick=()=>{state.tmplId=t.id;state.bgByScreen[state.page]=t.id;renderThumbs();renderCanvas();};w.appendChild(b);});}
 function updateNav(n){const nav=$('screennav');if(n<=1){nav.style.display='none';return;}nav.style.display='flex';if(state.page>n-1)state.page=n-1;$('screenLabel').textContent='Screen '+(Math.min(state.page,n-1)+1)+' of '+n;$('prevPage').disabled=state.page<=0;$('nextPage').disabled=state.page>=n-1;}
 function updateCount(){const total=itemsOf(state.categories);const n=screensOf(state.categories);const c=$('count');c.textContent=total+' items · '+n+' screen'+(n>1?'s':'');const note=$('screenNote');if(n>1){note.style.display='flex';note.innerHTML='This menu flows across <b>&nbsp;'+n+' screens&nbsp;</b>. Download exports all of them.';}else{note.style.display='none';}updateNav(n);}
 function metaText(c){const n=parseItems(c.items).length;return '<b>'+n+'</b> item'+(n===1?'':'s')+' · one per line · price at the end · (NV)/(E) for type.';}
@@ -710,7 +725,7 @@ function renderCats(){const wrap=$('cats');wrap.innerHTML='';
     ta.oninput=()=>{c.items=ta.value;meta.innerHTML=metaText(c);renderCanvas();updateCount();};
     card.appendChild(head);card.appendChild(ta);card.appendChild(meta);wrap.appendChild(card);});
   updateCount();}
-function download(type){const mime=type==='jpeg'?'image/jpeg':'image/png';const ext=type==='jpeg'?'jpg':'png';const safe=(state.title||'menu').replace(/[^\w-]+/g,'_').toLowerCase();const out=document.createElement('canvas');out.width=CANVAS_W;out.height=CANVAS_H;const octx=out.getContext('2d');const base=opts();const n=menuScreens(octx,Object.assign({},base,{bgEl:null}));let i=0;(function step(){if(i>=n){flash('Downloaded '+n+' screen'+(n>1?'s':'')+' · '+type.toUpperCase()+' 1920×1080');return;}renderMenu(octx,Object.assign({},base,{page:i}));const a=document.createElement('a');a.download=n>1?safe+'_screen_'+(i+1)+'_of_'+n+'_1920x1080.'+ext:safe+'_1920x1080.'+ext;a.href=out.toDataURL(mime,0.95);a.click();i++;setTimeout(step,350);})();}
+function download(type){const mime=type==='jpeg'?'image/jpeg':'image/png';const ext=type==='jpeg'?'jpg':'png';const safe=(state.title||'menu').replace(/[^\w-]+/g,'_').toLowerCase();const out=document.createElement('canvas');out.width=CANVAS_W;out.height=CANVAS_H;const octx=out.getContext('2d');const base=opts();const n=menuScreens(octx,Object.assign({},base,{bgEl:null}));let i=0;(function step(){if(i>=n){flash('Downloaded '+n+' screen'+(n>1?'s':'')+' · '+type.toUpperCase()+' 1920×1080');return;}renderMenu(octx,Object.assign({},base,{bgEl:imgCache[bgIdForPage(i)]||null,page:i}));const a=document.createElement('a');a.download=n>1?safe+'_screen_'+(i+1)+'_of_'+n+'_1920x1080.'+ext:safe+'_1920x1080.'+ext;a.href=out.toDataURL(mime,0.95);a.click();i++;setTimeout(step,350);})();}
 $('dlTemplate').onclick=()=>{const rows=[["Category","Item","Price","Type"],["Cold Beverages","Mosambi Juice",39,"Veg"],["Cold Beverages","Cold Coffee",39,"Veg"],["Eggs","Egg Bhurji",37,"Egg"],["Snacks","Chicken 65",120,"Non-veg"]];const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=[{wch:22},{wch:30},{wch:8},{wch:12}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Menu");XLSX.writeFile(wb,"smartq_menu_template.xlsx");flash('Template downloaded — fill Category / Item / Price / Type');};
 $('xlsx').onchange=(e)=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const wb=XLSX.read(new Uint8Array(r.result),{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(ws,{header:1,blankrows:false});const order=[],map={};for(let i=1;i<rows.length;i++){const row=rows[i]||[];const cat=(row[0]==null?'':String(row[0])).trim();const item=(row[1]==null?'':String(row[1])).trim();const price=row[2]==null?'':String(row[2]).trim();const tr=(row[3]==null?'':String(row[3])).trim().toLowerCase();if(!cat&&!item)continue;const key=cat||'Menu';if(!map[key]){map[key]=[];order.push(key);}if(!item)continue;let sfx='';if(tr.indexOf('non')===0||tr==='nv')sfx=' (NV)';else if(tr.indexOf('egg')===0||tr==='e')sfx=' (E)';map[key].push(item+sfx+(price?' '+price:''));}if(!order.length){flash('No rows found — use the template columns');return;}state.categories=order.map(k=>newCat(k,map[k].join('\n')));renderCats();renderCanvas();flash('Imported '+order.length+' categories');}catch(err){flash('Could not read that file — use the .xlsx template');}};r.readAsArrayBuffer(f);e.target.value='';};
 $('title').value=state.title;$('title').oninput=()=>{state.title=$('title').value;renderCanvas();updateCount();};
@@ -722,8 +737,11 @@ $('footer').value=state.footer;$('footer').oninput=()=>{state.footer=$('footer')
 $('addCat').onclick=()=>{state.categories.push(newCat($('newCat').value.trim()));$('newCat').value='';renderCats();renderCanvas();};
 $('newCat').addEventListener('keydown',e=>{if(e.key==='Enter')$('addCat').click();});
 $('dlPng').onclick=()=>download('png');$('dlJpg').onclick=()=>download('jpeg');
-$('prevPage').onclick=()=>{if(state.page>0){state.page--;renderCanvas();updateCount();}};
-$('nextPage').onclick=()=>{const n=screensOf(state.categories);if(state.page<n-1){state.page++;renderCanvas();updateCount();}};
+$('bgfile').onchange=(e)=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const id='bg-'+Date.now();let cnt=allTemplates.length-TEMPLATES.length+1;allTemplates.push({id:id,name:'Custom '+cnt,src:r.result});const im=new Image();im.onload=()=>{imgCache[id]=im;renderCanvas();};im.src=r.result;state.tmplId=id;renderThumbs();flash('Background added');};r.readAsDataURL(f);e.target.value='';};
+Array.from(document.querySelectorAll('#colsel button')).forEach(b=>{b.onclick=()=>{state.columns=Number(b.dataset.n);document.querySelectorAll('#colsel button').forEach(x=>x.classList.toggle('on',x===b));renderCanvas();updateCount();};});
+Array.from(document.querySelectorAll('#txtcol button')).forEach(b=>{b.onclick=()=>{state.textColor=b.dataset.v;document.querySelectorAll('#txtcol button').forEach(x=>x.classList.toggle('on',x===b));renderCanvas();};});
+$('prevPage').onclick=()=>{if(state.page>0){state.page--;renderCanvas();updateCount();renderThumbs();}};
+$('nextPage').onclick=()=>{const n=screensOf(state.categories);if(state.page<n-1){state.page++;renderCanvas();updateCount();renderThumbs();}};
 const nl=$('navlogo');if(nl)nl.src=LOGO_SRC;
 (function(){const l=new Image();l.onload=()=>{logoImg=l;renderCanvas();};l.src=LOGO_SRC;})();
 renderThumbs();renderCats();preload();renderCanvas();
