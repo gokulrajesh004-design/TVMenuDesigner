@@ -17,14 +17,14 @@ body{margin:0;background:var(--bg);color:var(--tp);}
 .brand .sep{color:var(--bm);font-weight:400;}
 .brand span:last-child{font-size:16px;font-weight:600;}
 .res{font-size:13px;color:var(--tt);}
-.app{display:grid;grid-template-columns:minmax(260px,20%) 1fr;gap:24px;padding:24px;align-items:start;}
-.controls{display:flex;flex-direction:column;gap:20px;}
+.app{display:grid;grid-template-columns:minmax(380px,32%) 1fr;gap:24px;padding:24px;align-items:start;}
+.controls{display:flex;flex-direction:column;gap:16px;}
 .card{background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:20px;}
 .card h3{margin:0 0 14px;font-size:16px;font-weight:600;}
 label{font-size:14px;font-weight:600;display:block;margin:16px 0 6px;}
 label:first-of-type{margin-top:0;}
 input[type=text],input[type=date],input:not([type]),select,textarea{width:100%;border:1.5px solid var(--bm);border-radius:6px;padding:10px 14px;font-size:14px;background:#fff;outline:none;}
-textarea{min-height:96px;resize:vertical;line-height:1.5;}
+textarea{min-height:60px;resize:vertical;line-height:1.5;}
 input:focus,textarea:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(254,191,52,.15);}
 .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
 .rowsb{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
@@ -36,21 +36,34 @@ input:focus,textarea:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3
 .btn{border:none;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
 .btn.primary{background:var(--p);color:var(--tp);}
 .btn.ghost{background:transparent;color:var(--sec);border:1.5px solid var(--sec);}
+.tabs{display:flex;gap:6px;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:6px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.tabs button{flex:1;padding:9px 0;border:none;border-radius:7px;cursor:pointer;font-weight:600;font-size:14px;background:transparent;color:var(--ts);}
+.tabs button.on{background:var(--p);color:#fff;}
+.orient{display:flex;gap:8px;}
+.orient button{flex:1;padding:10px 6px;border-radius:8px;border:1.5px solid var(--bm);background:#fff;color:var(--ts);cursor:pointer;text-align:center;}
+.orient button .t{font-weight:600;font-size:13px;}
+.orient button .s{font-size:11px;margin-top:2px;opacity:.8;}
+.orient button.on{border:2px solid var(--p);background:var(--pl);color:var(--pd);}
 .thumbs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-.thumb{position:relative;border:1.5px solid var(--bd);border-radius:8px;padding:4px;cursor:pointer;background:#fff;height:88px;background-size:cover;background-position:center;display:flex;align-items:flex-end;}
+.thumb{position:relative;border:1.5px solid var(--bd);border-radius:8px;padding:4px;cursor:pointer;background:#fff;height:80px;background-size:cover;background-position:center;display:flex;align-items:flex-end;}
 .thumb.active{border:2.5px solid var(--p);}
 .thumb span{font-size:11px;font-weight:600;background:rgba(255,255,255,.85);border-radius:4px;padding:1px 6px;}
-.addbox{display:flex;gap:12px;padding:24px;margin:4px 0 28px;background:var(--pl);border:1px solid var(--bd);border-radius:12px;}
-.catcard{border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:22px;background:#fff;}
+.catcard{border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:18px;background:var(--bg);}
 .catcard:last-child{margin-bottom:0;}
-.cathead{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
-.catname{font-weight:600;}
+.cathead{display:flex;gap:6px;align-items:center;margin-bottom:10px;}
+.catname{font-weight:700;background:#fff;}
+.itemrow{display:flex;gap:6px;align-items:center;margin-top:8px;}
+.itemrow .nm{flex:1;min-width:0;}
+.itemrow .pr{position:relative;width:78px;flex-shrink:0;}
+.itemrow .pr span{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--tt);font-size:14px;}
+.itemrow .pr input{padding:10px 8px 10px 22px;}
+.itemrow .ty{width:96px;flex-shrink:0;padding:10px 6px;cursor:pointer;}
+.additem{width:100%;margin-top:10px;padding:9px 0;border-radius:8px;border:1px dashed var(--bm);background:transparent;color:var(--ts);font-weight:600;font-size:13px;cursor:pointer;}
 .icon{background:#fff;border:1px solid var(--bd);border-radius:6px;width:32px;height:32px;min-width:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ts);}
 .icon:disabled{opacity:.4;cursor:default;}
 .icon.del{color:var(--err);border-color:#f3c5c9;}
 .empty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:32px 16px;text-align:center;border:1px dashed var(--bm);border-radius:8px;color:var(--tt);font-size:13px;}
-.warn{display:flex;gap:10px;background:#FFE7E9;border:1px solid #FB3748;border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:#a30c1a;}
-.note{display:flex;gap:10px;background:var(--pl);border:1px solid var(--p);border-radius:8px;padding:12px;margin:12px 0 0;font-size:13px;color:var(--ts);}
+.note{display:flex;gap:10px;background:var(--pl);border:1px solid var(--p);border-radius:8px;padding:12px;margin:0 0 14px;font-size:13px;color:var(--ts);}
 .screennav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;}
 .screennav .btn{padding:6px 14px;}
 .colsel{display:flex;gap:8px;}
@@ -58,6 +71,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3
 .colsel button.on{border:2px solid var(--p);background:var(--pl);color:var(--pd);}
 .upload{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;}
 .preview{position:sticky;top:24px;}
+.canvasOuter{display:flex;justify-content:center;}
 .canvasWrap{width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--bd);background:#000;}
 .canvasWrap canvas{width:100%;height:100%;display:block;}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--tp);color:#fff;border-radius:8px;padding:12px 16px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.15);border-left:4px solid var(--ok);opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;}
@@ -68,20 +82,23 @@ input:focus,textarea:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3
 
 <div class="nav">
   <div class="brand"><img id="navlogo" alt="SmartQ" style="height:30px;display:block"><span class="sep">|</span><span>TV Menu Designer</span></div>
-  <div class="res">1920 × 1080</div>
+  <div class="res" id="resBadge">1920 &times; 1080</div>
 </div>
 <div class="app">
   <aside class="controls">
-    <section class="card">
-      <h3>Design</h3>
+    <div class="tabs"><button data-tab="design" class="on">Design</button><button data-tab="content">Content</button><button data-tab="excel">Excel</button></div>
+
+    <section class="card tabpane" data-pane="design">
       <label>Menu title</label>
       <input type="text" id="title"/>
+      <label>Screen orientation</label>
+      <div id="orient" class="orient">
+        <button data-o="landscape" class="on"><div class="t">Landscape</div><div class="s">1920 &times; 1080</div></button>
+        <button data-o="portrait"><div class="t">Portrait</div><div class="s">1080 &times; 1920</div></button>
+      </div>
       <label>Date</label>
       <input type="date" id="date"/>
-      <div class="row" style="margin-top:12px">
-        <label class="chk"><input type="checkbox" id="showDay"/> Show day</label>
-        <label class="chk"><input type="checkbox" id="showDate"/> Show date</label>
-      </div>
+      <div class="row" style="margin-top:12px"><label class="chk"><input type="checkbox" id="showDay"/> Show day</label><label class="chk"><input type="checkbox" id="showDate"/> Show date</label></div>
       <label id="bgLabel">Background template</label>
       <div id="thumbs" class="thumbs"></div>
       <label class="btn ghost upload" style="color:var(--pd);border-color:var(--p)">Upload background image<input type="file" id="bgfile" accept="image/*" hidden></label>
@@ -90,37 +107,30 @@ input:focus,textarea:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3
       <label>Text color</label>
       <div id="txtcol" class="colsel"><button data-v="auto" class="on">Auto</button><button data-v="dark">Dark</button><button data-v="light">Light</button></div>
       <label>Item font size</label>
-      <select id="font"><option value="16">16 px</option><option value="18" selected>18 px</option><option value="20">20 px</option><option value="22">22 px</option><option value="24">24 px</option><option value="26">26 px</option><option value="28">28 px</option></select>
+      <select id="font"></select>
       <label>Footer message (optional)</label>
-      <textarea id="footer" placeholder="e.g. All prices inclusive of taxes. Prices subject to change." style="min-height:60px"></textarea>
+      <textarea id="footer" placeholder="e.g. All prices inclusive of taxes."></textarea>
       <p class="muted">Shown centered at the bottom of every screen.</p>
     </section>
-    <section class="card">
-      <h3>Build from Excel</h3>
-      <p class="muted" style="margin-bottom:14px">Download the template, fill <b>Category &middot; Item &middot; Price &middot; Type</b> (Veg / Non-veg / Egg), then upload it back.</p>
-      <div class="row">
-        <button id="dlTemplate" class="btn primary">Download template</button>
-        <label class="btn ghost" style="color:var(--pd);border-color:var(--p)">Upload filled file<input type="file" id="xlsx" accept=".xlsx,.xls,.csv" hidden></label>
-      </div>
-    </section>
-    <section class="card">
+
+    <section class="card tabpane" data-pane="content" style="display:none">
       <div class="rowsb"><h3 style="margin:0">Categories</h3><span id="count" class="muted" style="font-weight:600"></span></div>
       <div id="screenNote" class="note" style="display:none"></div>
-      <div class="addbox">
-        <input type="text" id="newCat" placeholder="New category (e.g. Cold Beverages)"/>
-        <button id="addCat" class="btn primary">+ Add</button>
-      </div>
+      <div class="row" style="margin:14px 0 18px"><input type="text" id="newCat" placeholder="New category (e.g. Cold Beverages)"/><button id="addCat" class="btn primary">+ Add</button></div>
       <div id="cats"></div>
+    </section>
+
+    <section class="card tabpane" data-pane="excel" style="display:none">
+      <h3>Build from Excel</h3>
+      <p class="muted" style="margin-bottom:14px">Download the template, fill <b>Category &middot; Item &middot; Price &middot; Type</b> (Veg / Non-veg / Egg), then upload it back. It replaces the current categories.</p>
+      <div class="row"><button id="dlTemplate" class="btn primary">Download template</button><label class="btn ghost" style="color:var(--pd);border-color:var(--p)">Upload filled file<input type="file" id="xlsx" accept=".xlsx,.xls,.csv" hidden></label></div>
     </section>
   </aside>
   <main class="preview card">
-    <div class="rowsb" style="margin-bottom:14px">
-      <div><h3 style="margin:0">Live preview</h3><p class="muted">Exact 1920 × 1080 — what you see is what downloads.</p></div>
-      <div class="row"><button id="dlPng" class="btn primary">Download PNG</button><button id="dlJpg" class="btn ghost">JPEG</button></div>
-    </div>
-    <div id="screennav" class="screennav" style="display:none"><button id="prevPage" class="btn ghost">‹ Prev</button><span id="screenLabel" style="font-weight:600;font-size:14px"></span><button id="nextPage" class="btn ghost">Next ›</button></div>
-    <div class="canvasWrap"><canvas id="canvas" width="1920" height="1080"></canvas></div>
-    <p class="muted center">Text color adapts to the background. Designed for a 1080p TV.</p>
+    <div class="rowsb" style="margin-bottom:14px"><div><h3 style="margin:0">Live preview</h3><p class="muted" id="previewSub">Exact 1920 &times; 1080 &mdash; what you see is what downloads.</p></div><div class="row"><button id="dlPng" class="btn primary">Download PNG</button><button id="dlJpg" class="btn ghost">JPEG</button></div></div>
+    <div id="screennav" class="screennav" style="display:none"><button id="prevPage" class="btn ghost">&lsaquo; Prev</button><span id="screenLabel" style="font-weight:600;font-size:14px"></span><button id="nextPage" class="btn ghost">Next &rsaquo;</button></div>
+    <div class="canvasOuter"><div id="canvasWrap" class="canvasWrap"><canvas id="canvas" width="1920" height="1080"></canvas></div></div>
+    <p class="muted center">Text color is a single shade. Designed for TV / digital screens.</p>
   </main>
 </div>
 <div id="toast" class="toast"></div>
@@ -148,10 +158,20 @@ const C = {
   error: "#FA1024",
 };
 
-const CANVAS_W = 1920;
-const CANVAS_H = 1080;
+// canvas size is dynamic: landscape 1920x1080 or portrait 1080x1920
+const SIZES = {
+  landscape: { w: 1920, h: 1080 },
+  portrait: { w: 1080, h: 1920 },
+};
+let CANVAS_W = 1920;
+let CANVAS_H = 1080;
+function applyOrientation(o) {
+  const s = SIZES[o] || SIZES.landscape;
+  CANVAS_W = s.w;
+  CANVAS_H = s.h;
+}
 const MARGIN = 72;
-const FONT_OPTIONS = [16, 18, 20, 22, 24, 26, 28];
+const FONT_OPTIONS = [18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48];
 
 const BANNER_COLOR = "#8B2E13";
 const INK_DARK = "#1f1206";
@@ -427,6 +447,7 @@ function drawLegendRight(ctx, rightX, y, ms, ink) {
 
 // ---- layout (shared by renderer AND the capacity check) -----------
 function computeMenu(ctx, opts) {
+  applyOrientation(opts.orientation);
   const { dayLabel, dateLabel, baseItemFont, categories } = opts;
   const contentX = MARGIN;
   const contentW = CANVAS_W - MARGIN * 2;
@@ -550,6 +571,7 @@ function menuScreens(ctx, opts) {
 
 // ---- core renderer ------------------------------------------------
 function renderMenu(ctx, opts) {
+  applyOrientation(opts.orientation);
   const { title, dayLabel, dateLabel, bgEl, logoEl, page = 0 } = opts;
 
   ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
@@ -686,65 +708,92 @@ function renderMenu(ctx, opts) {
 
 // ------------------------------------------------------------------ //
 let CAT_SEQ = 1;
-const newCat = (name = "", items = "") => ({ id: CAT_SEQ++, name, items });
+const newCat = (name = "", rows = []) => ({ id: CAT_SEQ++, name, rows });
+const newRow = (name = "", price = "", type = "veg") => ({ name, price, type });
+// serialize structured rows back into the "Name price (NV)/(E)" line format the renderer parses
+function serializeRows(rows) {
+  return (rows || [])
+    .filter((r) => (r.name || "").trim())
+    .map((r) => {
+      const suffix = r.type === "nonveg" ? " (NV)" : r.type === "egg" ? " (E)" : "";
+      const price = r.price === "" || r.price == null ? "" : ` ${String(r.price).trim()}`;
+      return `${r.name.trim()}${price}${suffix}`;
+    })
+    .join("\n");
+}
 
 
 
 const ICONS={up:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>',down:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>',del:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>'};
-const state={title:"Menu",date:new Date().toISOString().slice(0,10),showDay:false,showDate:false,tmplId:"t1",fontSize:18,columns:4,textColor:"auto",footer:"",categories:[],page:0,bgByScreen:{}};
+const state={title:"Menu",date:new Date().toISOString().slice(0,10),showDay:false,showDate:false,tmplId:"t1",fontSize:18,columns:4,textColor:"auto",orientation:"landscape",footer:"",categories:[],page:0,bgByScreen:{}};
 const $=id=>document.getElementById(id);
 const imgCache={};
 let logoImg=null;
 let allTemplates=TEMPLATES.slice();
 function bgIdForPage(p){return state.bgByScreen[p]||state.tmplId;}
-const mc=document.createElement('canvas');mc.width=CANVAS_W;mc.height=CANVAS_H;const measureCtx=mc.getContext('2d');
+const mc=document.createElement('canvas');mc.width=1920;mc.height=1920;const measureCtx=mc.getContext('2d');
 function labels(){const d=state.date?new Date(state.date+"T00:00:00"):null;return {dayLabel:state.showDay&&d?d.toLocaleDateString(undefined,{weekday:'long'}):"",dateLabel:state.showDate&&d?d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}):""};}
-function opts(cats){const l=labels();return {title:state.title,dayLabel:l.dayLabel,dateLabel:l.dateLabel,bgEl:imgCache[bgIdForPage(state.page)]||null,logoEl:logoImg,baseItemFont:state.fontSize,columns:state.columns,textColor:state.textColor,footer:state.footer,categories:cats||state.categories,page:state.page};}
-function itemsOf(cats){return cats.reduce((s,c)=>s+parseItems(c.items).length,0);}
-function screensOf(cats){const o=opts(cats);o.bgEl=null;return menuScreens(measureCtx,o);}
+function rcats(){return state.categories.map(c=>({name:c.name,items:serializeRows(c.rows)}));}
+function opts(){const l=labels();return {title:state.title,dayLabel:l.dayLabel,dateLabel:l.dateLabel,bgEl:imgCache[bgIdForPage(state.page)]||null,logoEl:logoImg,baseItemFont:state.fontSize,columns:state.columns,textColor:state.textColor,footer:state.footer,orientation:state.orientation,categories:rcats(),page:state.page};}
+function itemsOf(){return state.categories.reduce((s,c)=>s+(c.rows||[]).filter(r=>(r.name||'').trim()).length,0);}
+function screensOf(){const o=opts();o.bgEl=null;return menuScreens(measureCtx,o);}
 function renderCanvas(){renderMenu($('canvas').getContext('2d'),opts());}
 function preload(){TEMPLATES.forEach(t=>{if(!t.src||imgCache[t.id])return;const im=new Image();im.onload=()=>{imgCache[t.id]=im;renderCanvas();};im.src=t.src;});}
 let toastT;function flash(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400);}
-function renderThumbs(){const w=$('thumbs');w.innerHTML='';const sc=screensOf(state.categories);const lab=$('bgLabel');if(lab)lab.textContent=sc>1?('Background — Screen '+(Math.min(state.page,sc-1)+1)):'Background template';allTemplates.forEach(t=>{const b=document.createElement('button');b.className='thumb'+(bgIdForPage(state.page)===t.id?' active':'');b.title=t.name;if(t.src)b.style.backgroundImage='url('+t.src+')';const s=document.createElement('span');s.textContent=t.name;b.appendChild(s);b.onclick=()=>{state.tmplId=t.id;state.bgByScreen[state.page]=t.id;renderThumbs();renderCanvas();};w.appendChild(b);});}
+function applyDims(){const s=SIZES[state.orientation]||SIZES.landscape;const cv=$('canvas');cv.width=s.w;cv.height=s.h;const wrap=$('canvasWrap');wrap.style.aspectRatio=s.w+' / '+s.h;if(state.orientation==='portrait'){wrap.style.height='70vh';wrap.style.width='auto';}else{wrap.style.height='auto';wrap.style.width='100%';}$('resBadge').innerHTML=s.w+' &times; '+s.h;$('previewSub').innerHTML='Exact '+s.w+' &times; '+s.h+' &mdash; what you see is what downloads.';}
+function renderThumbs(){const w=$('thumbs');w.innerHTML='';const sc=screensOf();const lab=$('bgLabel');if(lab)lab.textContent=sc>1?('Background \u2014 Screen '+(Math.min(state.page,sc-1)+1)):'Background template';allTemplates.forEach(t=>{const b=document.createElement('button');b.className='thumb'+(bgIdForPage(state.page)===t.id?' active':'');b.title=t.name;if(t.src)b.style.backgroundImage='url('+t.src+')';const s=document.createElement('span');s.textContent=t.name;b.appendChild(s);b.onclick=()=>{state.tmplId=t.id;state.bgByScreen[state.page]=t.id;renderThumbs();renderCanvas();};w.appendChild(b);});}
 function updateNav(n){const nav=$('screennav');if(n<=1){nav.style.display='none';return;}nav.style.display='flex';if(state.page>n-1)state.page=n-1;$('screenLabel').textContent='Screen '+(Math.min(state.page,n-1)+1)+' of '+n;$('prevPage').disabled=state.page<=0;$('nextPage').disabled=state.page>=n-1;}
-function updateCount(){const total=itemsOf(state.categories);const n=screensOf(state.categories);const c=$('count');c.textContent=total+' items · '+n+' screen'+(n>1?'s':'');const note=$('screenNote');if(n>1){note.style.display='flex';note.innerHTML='This menu flows across <b>&nbsp;'+n+' screens&nbsp;</b>. Download exports all of them.';}else{note.style.display='none';}updateNav(n);}
-function metaText(c){const n=parseItems(c.items).length;return '<b>'+n+'</b> item'+(n===1?'':'s')+' · one per line · price at the end · (NV)/(E) for type.';}
+function updateCount(){const total=itemsOf();const n=screensOf();const c=$('count');c.textContent=total+' items \u00b7 '+n+' screen'+(n>1?'s':'');const note=$('screenNote');if(n>1){note.style.display='flex';note.innerHTML='This menu flows across <b>&nbsp;'+n+' screens&nbsp;</b>. Download exports all of them.';}else{note.style.display='none';}updateNav(n);}
 function mkIcon(kind,fn,disabled){const b=document.createElement('button');b.className='icon'+(kind==='del'?' del':'');b.innerHTML=ICONS[kind];b.disabled=!!disabled;b.onclick=fn;return b;}
 function move(idx,d){const j=idx+d;if(j<0||j>=state.categories.length)return;const a=state.categories;const t=a[idx];a[idx]=a[j];a[j]=t;renderCats();renderCanvas();}
 function renderCats(){const wrap=$('cats');wrap.innerHTML='';
-  if(!state.categories.length){wrap.innerHTML='<div class="empty"><b style="color:var(--tp)">No categories yet</b><div>Add one above, then list items as <b>Name price</b>. Add <b>(NV)</b> for non-veg, <b>(E)</b> for egg.</div></div>';updateCount();return;}
+  if(!state.categories.length){wrap.innerHTML='<div class="empty"><b style="color:var(--tp)">No categories yet</b><div>Add a category above, then add items with a name, price, and type.</div></div>';updateCount();return;}
   state.categories.forEach((c,idx)=>{const card=document.createElement('div');card.className='catcard';
     const head=document.createElement('div');head.className='cathead';
     const name=document.createElement('input');name.type='text';name.className='catname';name.value=c.name;name.placeholder='Category '+(idx+1);
     name.oninput=()=>{c.name=name.value;renderCanvas();updateCount();};
-    head.appendChild(name);head.appendChild(mkIcon('up',()=>move(idx,-1),idx===0));head.appendChild(mkIcon('down',()=>move(idx,1),idx===state.categories.length-1));
-    head.appendChild(mkIcon('del',()=>{state.categories.splice(idx,1);renderCats();renderCanvas();},false));
-    const ta=document.createElement('textarea');ta.value=c.items;ta.placeholder='Mosambi Juice 39\nChicken 65 120 (NV)\nEgg Bhurji 37 (E)';
-    let prev=c.items;
-    const meta=document.createElement('p');meta.className='muted small';meta.innerHTML=metaText(c);
-    ta.oninput=()=>{c.items=ta.value;meta.innerHTML=metaText(c);renderCanvas();updateCount();};
-    card.appendChild(head);card.appendChild(ta);card.appendChild(meta);wrap.appendChild(card);});
+    head.appendChild(name);
+    head.appendChild(mkIcon('up',()=>move(idx,-1),idx===0));
+    head.appendChild(mkIcon('down',()=>move(idx,1),idx===state.categories.length-1));
+    head.appendChild(mkIcon('del',()=>{state.categories.splice(idx,1);renderCats();renderCanvas();updateCount();},false));
+    card.appendChild(head);
+    (c.rows||[]).forEach((r,ri)=>{
+      const row=document.createElement('div');row.className='itemrow';
+      const nm=document.createElement('input');nm.type='text';nm.className='nm';nm.value=r.name;nm.placeholder='Item name';
+      nm.oninput=()=>{r.name=nm.value;renderCanvas();updateCount();};
+      const pr=document.createElement('div');pr.className='pr';const sp=document.createElement('span');sp.textContent='\u20B9';const pi=document.createElement('input');pi.type='text';pi.value=r.price;pi.placeholder='0';pi.inputMode='numeric';pi.oninput=()=>{r.price=pi.value;renderCanvas();updateCount();};pr.appendChild(sp);pr.appendChild(pi);
+      const ty=document.createElement('select');ty.className='ty';ty.innerHTML='<option value="veg">Veg</option><option value="nonveg">Non-veg</option><option value="egg">Egg</option>';ty.value=r.type;ty.onchange=()=>{r.type=ty.value;renderCanvas();};
+      const del=mkIcon('del',()=>{c.rows.splice(ri,1);renderCats();renderCanvas();updateCount();},false);
+      row.appendChild(nm);row.appendChild(pr);row.appendChild(ty);row.appendChild(del);
+      card.appendChild(row);
+    });
+    const add=document.createElement('button');add.className='additem';add.textContent='+ Add item';add.onclick=()=>{c.rows.push(newRow());renderCats();updateCount();};
+    card.appendChild(add);
+    wrap.appendChild(card);});
   updateCount();}
-function download(type){const mime=type==='jpeg'?'image/jpeg':'image/png';const ext=type==='jpeg'?'jpg':'png';const safe=(state.title||'menu').replace(/[^\w-]+/g,'_').toLowerCase();const out=document.createElement('canvas');out.width=CANVAS_W;out.height=CANVAS_H;const octx=out.getContext('2d');const base=opts();const n=menuScreens(octx,Object.assign({},base,{bgEl:null}));let i=0;(function step(){if(i>=n){flash('Downloaded '+n+' screen'+(n>1?'s':'')+' · '+type.toUpperCase()+' 1920×1080');return;}renderMenu(octx,Object.assign({},base,{bgEl:imgCache[bgIdForPage(i)]||null,page:i}));const a=document.createElement('a');a.download=n>1?safe+'_screen_'+(i+1)+'_of_'+n+'_1920x1080.'+ext:safe+'_1920x1080.'+ext;a.href=out.toDataURL(mime,0.95);a.click();i++;setTimeout(step,350);})();}
-$('dlTemplate').onclick=()=>{const rows=[["Category","Item","Price","Type"],["Cold Beverages","Mosambi Juice",39,"Veg"],["Cold Beverages","Cold Coffee",39,"Veg"],["Eggs","Egg Bhurji",37,"Egg"],["Snacks","Chicken 65",120,"Non-veg"]];const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=[{wch:22},{wch:30},{wch:8},{wch:12}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Menu");XLSX.writeFile(wb,"smartq_menu_template.xlsx");flash('Template downloaded — fill Category / Item / Price / Type');};
-$('xlsx').onchange=(e)=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const wb=XLSX.read(new Uint8Array(r.result),{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(ws,{header:1,blankrows:false});const order=[],map={};for(let i=1;i<rows.length;i++){const row=rows[i]||[];const cat=(row[0]==null?'':String(row[0])).trim();const item=(row[1]==null?'':String(row[1])).trim();const price=row[2]==null?'':String(row[2]).trim();const tr=(row[3]==null?'':String(row[3])).trim().toLowerCase();if(!cat&&!item)continue;const key=cat||'Menu';if(!map[key]){map[key]=[];order.push(key);}if(!item)continue;let sfx='';if(tr.indexOf('non')===0||tr==='nv')sfx=' (NV)';else if(tr.indexOf('egg')===0||tr==='e')sfx=' (E)';map[key].push(item+sfx+(price?' '+price:''));}if(!order.length){flash('No rows found — use the template columns');return;}state.categories=order.map(k=>newCat(k,map[k].join('\n')));renderCats();renderCanvas();flash('Imported '+order.length+' categories');}catch(err){flash('Could not read that file — use the .xlsx template');}};r.readAsArrayBuffer(f);e.target.value='';};
+function download(type){const mime=type==='jpeg'?'image/jpeg':'image/png';const ext=type==='jpeg'?'jpg':'png';const safe=(state.title||'menu').replace(/[^\w-]+/g,'_').toLowerCase();const s=SIZES[state.orientation]||SIZES.landscape;const res=s.w+'x'+s.h;const out=document.createElement('canvas');out.width=s.w;out.height=s.h;const octx=out.getContext('2d');const base=opts();const n=menuScreens(octx,Object.assign({},base,{bgEl:null}));let i=0;(function step(){if(i>=n){flash('Downloaded '+n+' screen'+(n>1?'s':'')+' \u00b7 '+type.toUpperCase()+' '+s.w+'\u00d7'+s.h);return;}renderMenu(octx,Object.assign({},base,{bgEl:imgCache[bgIdForPage(i)]||null,page:i}));const a=document.createElement('a');a.download=n>1?safe+'_screen_'+(i+1)+'_of_'+n+'_'+res+'.'+ext:safe+'_'+res+'.'+ext;a.href=out.toDataURL(mime,0.95);a.click();i++;setTimeout(step,350);})();}
+$('dlTemplate').onclick=()=>{const rows=[["Category","Item","Price","Type"],["Cold Beverages","Mosambi Juice",39,"Veg"],["Cold Beverages","Cold Coffee",39,"Veg"],["Eggs","Egg Bhurji",37,"Egg"],["Snacks","Chicken 65",120,"Non-veg"]];const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=[{wch:22},{wch:30},{wch:8},{wch:12}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Menu");XLSX.writeFile(wb,"smartq_menu_template.xlsx");flash('Template downloaded \u2014 fill Category / Item / Price / Type');};
+$('xlsx').onchange=(e)=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const wb=XLSX.read(new Uint8Array(r.result),{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(ws,{header:1,blankrows:false});const order=[],map={};for(let i=1;i<rows.length;i++){const row=rows[i]||[];const cat=(row[0]==null?'':String(row[0])).trim();const item=(row[1]==null?'':String(row[1])).trim();const price=row[2]==null?'':String(row[2]).trim();const tr=(row[3]==null?'':String(row[3])).trim().toLowerCase();if(!cat&&!item)continue;const key=cat||'Menu';if(!map[key]){map[key]=[];order.push(key);}if(!item)continue;let type='veg';if(tr.indexOf('non')===0||tr==='nv')type='nonveg';else if(tr.indexOf('egg')===0||tr==='e')type='egg';map[key].push(newRow(item,price,type));}if(!order.length){flash('No rows found \u2014 use the template columns');return;}state.categories=order.map(k=>newCat(k,map[k]));renderCats();renderCanvas();flash('Imported '+order.length+' categories');}catch(err){flash('Could not read that file \u2014 use the .xlsx template');}};r.readAsArrayBuffer(f);e.target.value='';};
+(function(){const f=$('font');f.innerHTML=FONT_OPTIONS.map(x=>'<option value="'+x+'">'+x+' px</option>').join('');f.value=String(state.fontSize);})();
+Array.from(document.querySelectorAll('.tabs button')).forEach(b=>{b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));const t=b.dataset.tab;document.querySelectorAll('.tabpane').forEach(p=>{p.style.display=p.dataset.pane===t?'':'none';});};});
+Array.from(document.querySelectorAll('#orient button')).forEach(b=>{b.onclick=()=>{state.orientation=b.dataset.o;document.querySelectorAll('#orient button').forEach(x=>x.classList.toggle('on',x===b));applyDims();renderCanvas();updateCount();renderThumbs();};});
 $('title').value=state.title;$('title').oninput=()=>{state.title=$('title').value;renderCanvas();updateCount();};
 $('date').value=state.date;$('date').oninput=()=>{state.date=$('date').value;renderCanvas();updateCount();};
 $('showDay').onchange=()=>{state.showDay=$('showDay').checked;renderCanvas();updateCount();};
 $('showDate').onchange=()=>{state.showDate=$('showDate').checked;renderCanvas();updateCount();};
-$('font').value=String(state.fontSize);$('font').onchange=()=>{state.fontSize=Number($('font').value);renderCanvas();updateCount();};
+$('font').onchange=()=>{state.fontSize=Number($('font').value);renderCanvas();updateCount();};
 $('footer').value=state.footer;$('footer').oninput=()=>{state.footer=$('footer').value;renderCanvas();updateCount();};
-$('addCat').onclick=()=>{state.categories.push(newCat($('newCat').value.trim()));$('newCat').value='';renderCats();renderCanvas();};
+$('addCat').onclick=()=>{state.categories.push(newCat($('newCat').value.trim(),[newRow()]));$('newCat').value='';renderCats();renderCanvas();updateCount();};
 $('newCat').addEventListener('keydown',e=>{if(e.key==='Enter')$('addCat').click();});
 $('dlPng').onclick=()=>download('png');$('dlJpg').onclick=()=>download('jpeg');
-$('bgfile').onchange=(e)=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const id='bg-'+Date.now();let cnt=allTemplates.length-TEMPLATES.length+1;allTemplates.push({id:id,name:'Custom '+cnt,src:r.result});const im=new Image();im.onload=()=>{imgCache[id]=im;renderCanvas();};im.src=r.result;state.tmplId=id;renderThumbs();flash('Background added');};r.readAsDataURL(f);e.target.value='';};
+$('bgfile').onchange=(e)=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const id='bg-'+Date.now();let cnt=allTemplates.length-TEMPLATES.length+1;allTemplates.push({id:id,name:'Custom '+cnt,src:r.result});const im=new Image();im.onload=()=>{imgCache[id]=im;renderCanvas();};im.src=r.result;state.tmplId=id;state.bgByScreen[state.page]=id;renderThumbs();flash('Background added');};r.readAsDataURL(f);e.target.value='';};
 Array.from(document.querySelectorAll('#colsel button')).forEach(b=>{b.onclick=()=>{state.columns=Number(b.dataset.n);document.querySelectorAll('#colsel button').forEach(x=>x.classList.toggle('on',x===b));renderCanvas();updateCount();};});
 Array.from(document.querySelectorAll('#txtcol button')).forEach(b=>{b.onclick=()=>{state.textColor=b.dataset.v;document.querySelectorAll('#txtcol button').forEach(x=>x.classList.toggle('on',x===b));renderCanvas();};});
 $('prevPage').onclick=()=>{if(state.page>0){state.page--;renderCanvas();updateCount();renderThumbs();}};
-$('nextPage').onclick=()=>{const n=screensOf(state.categories);if(state.page<n-1){state.page++;renderCanvas();updateCount();renderThumbs();}};
+$('nextPage').onclick=()=>{const n=screensOf();if(state.page<n-1){state.page++;renderCanvas();updateCount();renderThumbs();}};
 const nl=$('navlogo');if(nl)nl.src=LOGO_SRC;
 (function(){const l=new Image();l.onload=()=>{logoImg=l;renderCanvas();};l.src=LOGO_SRC;})();
-renderThumbs();renderCats();preload();renderCanvas();
+applyDims();renderThumbs();renderCats();preload();renderCanvas();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(renderCanvas);
 
 </script>
